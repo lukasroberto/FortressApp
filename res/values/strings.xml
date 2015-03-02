@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Eventos Fortress</string>
+    <string name="titulo">Listar Eventos Cliente</string>
+    <string name="action_settings">Menu</string>
+    <string name="title_activity_recultado">Recultado</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="email_address">Email Address</string>
+    <string name="button_submit">Submit</string>
+
+</resources>
