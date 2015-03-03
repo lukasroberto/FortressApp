@@ -1,84 +1,96 @@
 package br.com.grupofortress;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
+import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+import br.com.grupofortress.controller.HttpManager;
+import br.com.grupofortress.controller.populaJson;
+import br.com.grupofortress.model.Evento;
 
 public class MainActivity extends Activity implements OnClickListener {
+	TextView textView;
+	ProgressBar pb;
+	List<Evento> eventoList;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		textView = (TextView) findViewById(R.id.textView2);
+		pb = (ProgressBar) findViewById(R.id.progressBar);
+		pb.setVisibility(View.INVISIBLE);
+
 		findViewById(R.id.button1).setOnClickListener(this);
+
 	}
 
 	@Override
 	public void onClick(View arg0) {
 		Button b = (Button) findViewById(R.id.button1);
-		b.setClickable(false);
-		new LongRunningGetIO().execute();
+		// b.setClickable(false);
+		if (isOnline()) {
+			new MyTask()
+					.execute("http://192.168.0.196:8080/WebServiceFortress_Leitor/listar/evento/5050/5");
+		} else {
+			Toast.makeText(this, "Problema na conexão", Toast.LENGTH_LONG)
+					.show();
+		}
 	}
 
-	private class LongRunningGetIO extends AsyncTask<Void, Void, String> {
+	protected void imprime() {
+		pb.setVisibility(View.VISIBLE);
 
-		protected String getASCIIContentFromEntity(HttpEntity entity)
-				throws IllegalStateException, IOException {
-			InputStream in = entity.getContent();
-			StringBuffer out = new StringBuffer();
-			int n = 1;
-			while (n > 0) {
-				byte[] b = new byte[4096];
-				n = in.read(b);
-				if (n > 0)
-					out.append(new String(b, 0, n));
+		if (eventoList != null) {
+			for (Evento evento : eventoList) {
+				textView.append(evento.getCli_nome());
 			}
-			return out.toString();
+		}
+
+	}
+
+	protected boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netinfo = cm.getActiveNetworkInfo();
+		if (netinfo != null && netinfo.isConnectedOrConnecting()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private class MyTask extends AsyncTask<String, String, String> {
+
+		@Override
+		protected void onPreExecute() {
+			pb.setVisibility(View.VISIBLE);
 		}
 
 		@Override
-		protected String doInBackground(Void... params) {
-			HttpClient httpClient = new DefaultHttpClient();
-			HttpContext localContext = new BasicHttpContext();
-			HttpGet httpGet = new HttpGet(
-					"http://200.207.41.249:8080/WebServiceFortress_Leitor/listar/evento/5050/5");
-			String text = null;
-			try {
-				HttpResponse response = httpClient.execute(httpGet,
-						localContext);
-				HttpEntity entity = response.getEntity();
-				text = getASCIIContentFromEntity(entity);
-			} catch (Exception e) {
-				return e.getLocalizedMessage();
-			}
-			return text;
+		protected String doInBackground(String... params) {
+
+			String content = HttpManager.getData(params[0]);
+			return content;
 		}
 
+		@Override
 		protected void onPostExecute(String results) {
-			if (results != null) {
-				EditText et = (EditText) findViewById(R.id.editText1);
-				et.setText(results);
-			}
-			Button b = (Button) findViewById(R.id.button1);
-			b.setClickable(true);
-			Toast.makeText(getApplicationContext(), "teste", Toast.LENGTH_LONG)
-					.show();
+			eventoList = populaJson.parseFeed(results);
+			imprime();
+			pb.setVisibility(View.INVISIBLE);
+
 		}
+
 	}
 
 }
