@@ -11,9 +11,9 @@ import br.com.grupofortress.model.Evento;
 
 public class populaJson {
 	
-	public static List<Evento> parseFeed(String content){
+	public static ArrayList<Evento> parseFeed(String content){
 		try {
-			List<Evento> eventosList = new ArrayList<Evento>();
+			ArrayList<Evento> eventosList = new ArrayList<Evento>();
 			
 			JSONObject ar = new JSONObject(content);
             JSONArray resultados = ar.getJSONArray("eventos");
