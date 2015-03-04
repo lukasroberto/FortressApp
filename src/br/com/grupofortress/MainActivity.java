@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		pb.setVisibility(View.INVISIBLE);
 
 		findViewById(R.id.bt_busca_eventos).setOnClickListener(this);
-
+		
 	}
 
 	@Override
