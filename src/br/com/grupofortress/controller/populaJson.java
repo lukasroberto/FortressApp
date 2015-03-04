@@ -18,7 +18,6 @@ public class populaJson {
 			JSONObject ar = new JSONObject(content);
             JSONArray resultados = ar.getJSONArray("eventos");
 
-			
 			for (int i = 0; i < resultados.length(); i++) {
                 String dadosString = resultados.get(i).toString();
                 JSONObject obj = new JSONObject(dadosString);
