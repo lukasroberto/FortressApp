@@ -20,28 +20,33 @@ import br.com.grupofortress.model.Evento;
 
 public class MainActivity extends Activity implements OnClickListener {
 	TextView textView;
+	TextView codCliente;
 	ProgressBar pb;
 	List<Evento> eventoList;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		textView = (TextView) findViewById(R.id.textView2);
+		textView = (TextView) findViewById(R.id.tv_conteudo_eventos);
+		codCliente = (TextView) findViewById(R.id.et_cliente);
 		pb = (ProgressBar) findViewById(R.id.progressBar);
 		pb.setVisibility(View.INVISIBLE);
 
-		findViewById(R.id.button1).setOnClickListener(this);
+		findViewById(R.id.bt_busca_eventos).setOnClickListener(this);
 
 	}
 
 	@Override
 	public void onClick(View arg0) {
-		Button b = (Button) findViewById(R.id.button1);
+		Button b = (Button) findViewById(R.id.bt_busca_eventos);
 		// b.setClickable(false);
 		if (isOnline()) {
+			String url = "http://200.207.41.249:8080/WebServiceFortress_Leitor/listar/evento/5050/5";
 			new MyTask()
-					.execute("http://192.168.0.196:8080/WebServiceFortress_Leitor/listar/evento/5050/5");
+					.execute(url);
+			
 		} else {
 			Toast.makeText(this, "Problema na conexão", Toast.LENGTH_LONG)
 					.show();
@@ -50,10 +55,11 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	protected void imprime() {
 		pb.setVisibility(View.VISIBLE);
+		textView.setText("");
 
 		if (eventoList != null) {
 			for (Evento evento : eventoList) {
-				textView.append(evento.getCli_nome());
+				textView.append(evento.getCli_nome()+"\n"+evento.getEve_data()+"\n\n");
 			}
 		}
 

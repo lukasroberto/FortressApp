@@ -5,8 +5,8 @@
     <string name="titulo">Listar Eventos Cliente</string>
     <string name="action_settings">Menu</string>
     <string name="title_activity_recultado">Recultado</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="email_address">Email Address</string>
-    <string name="button_submit">Submit</string>
+    <string name="botao_buscar">Buscar</string>
+    <string name="evento">Evento: </string>
+    <string name="data">Data: </string>
 
 </resources>
