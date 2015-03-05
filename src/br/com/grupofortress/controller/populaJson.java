@@ -1,7 +1,6 @@
 package br.com.grupofortress.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +23,7 @@ public class populaJson {
 				
 				Evento evento = new Evento();
 
-			    evento.setEve_hora(obj.get("eve_hora").toString());
+			    //evento.setEve_hora(obj.get("eve_hora").toString());
 			    evento.setEve_data(obj.get("eve_data").toString());
 			    evento.setEve_conta_grupo_receptor(obj.get("eve_conta_grupo_receptor").toString());
 			    evento.setEve_codigo_cliente(obj.get("eve_codigo_cliente").toString());

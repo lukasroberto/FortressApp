@@ -1,18 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.grupofortress.controller;
 
 import java.util.ArrayList;
 
-import android.app.usage.UsageEvents.Event;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.grupofortress.R;
 import br.com.grupofortress.model.Evento;
@@ -71,6 +65,7 @@ public class AdapterListView extends BaseAdapter {
         //atravez do layout pego pelo LayoutInflater, pegamos cada id relacionado
         //ao item e definimos as informações.
         ((TextView) view.findViewById(R.id.evento)).setText(item.getEvento_descricao());
+        ((TextView) view.findViewById(R.id.data)).setText(item.getEve_data());
 
 
         return view;

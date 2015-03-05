@@ -73,7 +73,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		if (isOnline()) {
 			if (!codCli.equals("")) {
-				String url = "http://192.168.0.196:8080/WebServiceFortress_Leitor/listar/evento/"
+				String url = "http://200.207.41.249:8080/WebServiceFortress_Leitor/listar/evento/"
 						+ codCli + "/5";
 				new MyTask().execute(url);
 			} else {
