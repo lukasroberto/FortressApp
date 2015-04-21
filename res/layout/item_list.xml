@@ -7,6 +7,8 @@
         android:id="@+id/eventoTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="1dp"
+        android:paddingTop="2dp"
         android:text="@string/evento"
         android:textColor="#C7F464"
         android:textStyle="bold" />
@@ -16,6 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/eventoTitulo"
+        android:paddingBottom="1dp"
+        android:paddingTop="2dp"
         android:textColor="#ffffff" />
 
     <TextView
@@ -24,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/eventoTitulo"
+        android:paddingBottom="2dp"
         android:text="@string/data"
         android:textColor="#C7F464"
         android:textStyle="bold" />
@@ -34,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/evento"
         android:layout_toRightOf="@+id/dataTitulo"
+        android:paddingBottom="2dp"
         android:textColor="#ffffff" />
 
 </RelativeLayout>

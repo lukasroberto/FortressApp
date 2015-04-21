@@ -11,10 +11,7 @@ import android.widget.TextView;
 import br.com.grupofortress.R;
 import br.com.grupofortress.model.Evento;
 
-/**
- *
- * @author guilherme
- */
+
 public class AdapterListView extends BaseAdapter {
 
     private LayoutInflater mInflater;
@@ -64,7 +61,7 @@ public class AdapterListView extends BaseAdapter {
 
         //atravez do layout pego pelo LayoutInflater, pegamos cada id relacionado
         //ao item e definimos as informações.
-        ((TextView) view.findViewById(R.id.evento)).setText(item.getEvento_descricao());
+        ((TextView) view.findViewById(R.id.evento)).setText(item.getEve_codigo_evento()+" - "+item.getEvento_descricao());
         ((TextView) view.findViewById(R.id.data)).setText(item.getEve_data());
 
 

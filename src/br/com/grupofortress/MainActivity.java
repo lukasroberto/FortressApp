@@ -23,10 +23,11 @@ import br.com.grupofortress.controller.populaJson;
 import br.com.grupofortress.model.Evento;
 
 public class MainActivity extends Activity implements OnClickListener {
-	TextView textView;
-	TextView codCliente;
-	ProgressBar pb;
-	ArrayList<Evento> eventoList;
+	private Button b;
+	private TextView codCliente;
+	private ProgressBar pb;
+	private ArrayList<Evento> eventoList;
+	private String codCli;
 
 	private ListView listView;
 	private AdapterListView adapterListView;
@@ -35,7 +36,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		// textView = (TextView) findViewById(R.id.tv_conteudo_eventos);
+
 		pb = (ProgressBar) findViewById(R.id.progressBar);
 		pb.setVisibility(View.INVISIBLE);
 
@@ -43,62 +44,72 @@ public class MainActivity extends Activity implements OnClickListener {
 		// Pega a referencia do ListView
 		listView = (ListView) findViewById(R.id.list);
 		// Define o Listener quando alguem clicar no item.
+		// listView.setOnItemClickListener(this);
 
-	}
-
-	private void createListView() {
-		// Cria o adapter
-		adapterListView = new AdapterListView(this, eventoList);
-
-		// Define o Adapter
-		listView.setAdapter(adapterListView);
-		// Cor quando a lista Ã© selecionada para ralagem.
-		listView.setCacheColorHint(Color.TRANSPARENT);
-	}
-
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// Pega o item que foi selecionado.
-		Evento item = adapterListView.getItem(arg2);
-		// DemostraÃ§Ã£o
-		Toast.makeText(this, "VocÃª Clicou em: " + item.getEvento_descricao(),
-				Toast.LENGTH_LONG).show();
 	}
 
 	@Override
 	public void onClick(View arg0) {
-		Button b = (Button) findViewById(R.id.bt_busca_eventos);
+		b = (Button) findViewById(R.id.bt_busca_eventos);
 		// b.setClickable(false);
+
 		codCliente = (TextView) findViewById(R.id.et_cliente);
-		String codCli = codCliente.getText().toString();
+		codCli = codCliente.getText().toString();
 
 		if (isOnline()) {
 			if (!codCli.equals("")) {
 				String url = "http://200.207.41.249:8080/WebServiceFortress_Leitor/listar/evento/"
-						+ codCli + "/5";
+						+ codCli + "/10";
 				new MyTask().execute(url);
 			} else {
 				Toast.makeText(this, "Informe o código do cliente.",
 						Toast.LENGTH_LONG).show();
 			}
 		} else {
-			Toast.makeText(this, "Problema na conexão", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this, "Problema na conexão de Internet",
+					Toast.LENGTH_LONG).show();
 		}
 	}
 
 	protected void imprime() {
 		pb.setVisibility(View.VISIBLE);
-		//textView.setText("");
 
 		if (eventoList != null) {
-			createListView();
+			if (eventoList.get(0).getStatus() != null
+					&& eventoList.get(0).getStatus().equals("clienteFalse")) {
+				Toast.makeText(this,
+						"Cliente não Cadastrado, Informar Depto. Informatica.",
+						Toast.LENGTH_LONG).show();
+			} else {
+				TextView titulo = (TextView) findViewById(R.id.tv_titulo);
+				titulo.setText(eventoList.get(1).getCli_nome().toString());
+				createListView();
+			}
+		} else {
+			Toast.makeText(this,
+					"Nenhum evento recebido pelo Cliente " + codCli,
+					Toast.LENGTH_LONG).show();
 		}
 
+	}
+
+	private void createListView() {
+		adapterListView = new AdapterListView(this, eventoList);
+		listView.setAdapter(adapterListView);
+		listView.setCacheColorHint(Color.TRANSPARENT);
+	}
+
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// Pega o item que foi selecionado.
+		Evento item = adapterListView.getItem(arg2);
+		Toast.makeText(this, "VocÃª Clicou em: " + item.getEvento_descricao(),
+				Toast.LENGTH_LONG).show();
 	}
 
 	protected boolean isOnline() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo netinfo = cm.getActiveNetworkInfo();
+
 		if (netinfo != null && netinfo.isConnectedOrConnecting()) {
 			return true;
 		} else {
@@ -123,7 +134,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		@Override
 		protected void onPostExecute(String results) {
 			eventoList = populaJson.parseFeed(results);
+
 			imprime();
+
 			pb.setVisibility(View.INVISIBLE);
 
 		}

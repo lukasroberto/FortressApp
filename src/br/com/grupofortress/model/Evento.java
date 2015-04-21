@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Evento {
 
 	private Long eve_id;
-	private String eve_hora;
+	private String status;
 	private String eve_data;
 	private String eve_conta_grupo_receptor;
 	private String eve_codigo_cliente;
@@ -21,21 +21,12 @@ public class Evento {
 	private String evento_descricao;
 
 	private static Evento instancia;
-	private static ArrayList<Evento> eventos = new ArrayList<Evento>();
 
 	public static Evento getInstancia() {
 		if (instancia == null) {
 			instancia = new Evento();
 		}
 		return instancia;
-	}
-
-	public ArrayList<Evento> listarEventos() {
-		return eventos;
-	}
-
-	public void addEvento(Evento evento) {
-		eventos.add(evento);
 	}
 
 	public Long getEve_id() {
@@ -46,12 +37,12 @@ public class Evento {
 		this.eve_id = eve_id;
 	}
 
-	public String getEve_hora() {
-		return eve_hora;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setEve_hora(String eve_hora) {
-		this.eve_hora = eve_hora;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getEve_data() {

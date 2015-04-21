@@ -12,6 +12,7 @@
     tools:context="br.com.grupofortress.MainActivity" >
 
     <TextView
+        android:id="@+id/tv_titulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
@@ -27,7 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_span="3"
-            android:ems="10" >
+            android:inputType="number"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff" >
         </EditText>
 
         <Button
@@ -39,16 +42,13 @@
             android:text="@string/botao_buscar" />
     </TableRow>
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+    <ProgressBar android:id="@+id/progressBar" />
 
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="#919191"
-            android:dividerHeight="1sp" />
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#919191"
+        android:dividerHeight="1dp" />
 
 </TableLayout>
